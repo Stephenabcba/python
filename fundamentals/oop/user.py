@@ -5,16 +5,20 @@ class User:
 
     def make_deposit(self,amount):
         self.balance += amount
+        return self
 
     def make_withdrawal(self,amount):
         self.balance -= amount
+        return self
 
     def display_user_balance(self):
         print(f"User: {self.name}, Balance: ${self.balance}")
+        return self
 
     def transfer_money(self, other_user, amount):
         self.balance -= amount
         other_user.balance += amount
+        return self
 
 stephen = User('Stephen')
 john = User('John')
@@ -41,3 +45,6 @@ jane.display_user_balance()
 stephen.transfer_money(jane,10300)
 stephen.display_user_balance()
 jane.display_user_balance()
+
+print("method chaining:")
+john.make_withdrawal(100).make_deposit(12345).make_deposit(5123).display_user_balance()

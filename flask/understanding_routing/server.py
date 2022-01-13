@@ -15,10 +15,7 @@ def say(word):
 
 @app.route('/repeat/<int:times>/<string:word>')
 def repeat(times, word):
-    result = ((f"{word}\n") * times)
-    print(result)
-    print(type(times))
-    return ((f"{word}\n") * times)
+    return (word * times)
 
 if __name__=="__main__":   # Ensure this file is being run directly and not from a different module    
     app.run(debug=True)    # Run the app in debug mode.

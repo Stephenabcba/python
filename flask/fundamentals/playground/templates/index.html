@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome!</title>
+</head>
+<body>
+    <style>
+        * {
+            margin:0;
+            padding:0;
+        }
+        #container {
+            width: 1000px;
+        }
+        h1 {
+            text-align: center;
+            justify-self: center;
+            display: block;
+            margin: 60px 0px;
+        }
+        .block {
+            width: 200px;
+            height: 200px;
+            border-radius: 20px;
+            border:black solid 2px;
+            background-color: skyblue;
+            display: inline-block;
+            margin:20px;
+        }
+    </style>
+    <div id="container">
+        <h1>Welcome!</h1>
+        <div>
+        {%if not block_count%}
+                <div class=block> </div>
+                <div class=block> </div>
+                <div class=block> </div>
+            {%elif not color%}
+                {%for i in range(block_count)%}
+                    <div class=block> </div>
+                {%endfor%}
+            {%else%}
+                {%for i in range(block_count)%}
+                    <div class=block style="background-color: {{color}};"> </div>
+                {%endfor%}
+            {%endif%}
+        </div>
+
+    </div>
+</body>
+</html>

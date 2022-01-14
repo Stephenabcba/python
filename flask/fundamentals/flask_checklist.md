@@ -29,7 +29,7 @@ pip install pipenv
         ```
 7. Create server.py file
     ```py
-    from flask import Flask
+    from flask import Flask, render_template,  request, redirect, session
     app = Flask(__name__)
 
     # will be moved to "controller" file

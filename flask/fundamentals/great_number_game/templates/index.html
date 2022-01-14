@@ -26,6 +26,18 @@
             {% elif session["result"] == "correct" %}
                 <div class="bg-success p-5 rounded border border-1 border-dark shadow d-flex flex-column align-items-center">
                     <h3 class="text-center text-white mb-4">{{session["target_number"]}} was the number!</h3>
+                    <form action="/submit" method="post" class="d-flex flex-column align-items-center">
+                        <input type="text" name="name" id="name" class="my-3 form-control">
+                        <button class="btn btn-secondary mb-3">Submit</button>
+                    </form>
+                    <form action="restart" method="post">
+                        <input type="submit" value="Play again!" class="btn btn-secondary">
+                    </form>
+                </div>
+            {% elif session["guess_count"] > 4 %}
+                <div class="bg-danger p-5 rounded border border-1 border-dark shadow d-flex flex-column align-items-center">
+                    <h3 class="text-center text-white mb-4">You lose!</h3>
+                    <h3 class="text-center text-white mb-4">{{session["target_number"]}} was the number.</h3>
                     <form action="restart" method="post">
                         <input type="submit" value="Play again!" class="btn btn-secondary">
                     </form>
@@ -39,6 +51,7 @@
                     <button class="btn btn-secondary">Guess</button>
                 </form>
             {% endif %}
+            <p>You have guessed {{session["guess_count"]}} time(s).</p>
         {% else %}
             <form action="/guess" method="post" class="d-flex flex-column align-items-center">
                 <input type="text" name="guess" id="guess" class="my-3 form-control">

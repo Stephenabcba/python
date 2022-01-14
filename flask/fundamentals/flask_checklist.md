@@ -40,7 +40,18 @@ pip install pipenv
     if __name__=="__main__": # MUST BE AT BOTTOM
         app.run(debug=True)
     ```
-8. Test server
+8. Create file structure
+    - Main_app
+        - server.py
+        - pipfile
+        - pipfile.lock
+        - templates
+            - index.html
+        - static
+            - img
+            - css
+            - js
+9. Test server
     ```
     python server.py
     ```

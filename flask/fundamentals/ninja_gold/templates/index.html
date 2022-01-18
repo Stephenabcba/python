@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ninja Gold</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/style.css')}}">
+</head>
+<body>
+    <div id="container">
+        <div id="gold">
+            <p>Your Gold:</p>
+            <div class="black_border">
+                {{session["money"]}}
+            </div>
+        </div>
+        <div id="actions">
+            <div class="action black_border">
+                <h2>Farm</h2>
+                <p>(earns 10-20 golds)</p>
+                <form action="/process_money" method="post">
+                    <input type="hidden" name="choice" value="farm">
+                    <button class="black_border">Find Gold!</button>
+                </form>
+            </div>
+            <div class="action black_border">
+                <h2>Cave</h2>
+                <p>(earns 5-10 golds)</p>
+                <form action="/process_money" method="post">
+                    <input type="hidden" name="choice" value="cave">
+                    <button class="black_border">Find Gold!</button>
+                </form>
+            </div>
+            <div class="action black_border">
+                <h2>House</h2>
+                <p>(earn 2-5 golds)</p>
+                <form action="/process_money" method="post">
+                    <input type="hidden" name="choice" value="house">
+                    <button class="black_border">Find Gold!</button>
+                </form>
+            </div>
+            <div class="action black_border">
+                <h2>Casino</h2>
+                <p>(earns/takes 0-50 golds)</p>
+                <form action="/process_money" method="post">
+                    <input type="hidden" name="choice" value="casino">
+                    <button class="black_border">Find Gold!</button>
+                </form>
+            </div>
+        </div>
+        <div id="activities">
+            <p>Activities</p>
+            <div class="black_border">
+                {% for action in session["action_log"] %}
+                    {{action|safe}}
+                {% endfor %}
+            </div>
+        </div>
+        {% if session["money"] >= 500 and session["moves"] <= 15 %}
+            <p>You did it! you reached {{session["money"]}} gold in {{session["moves"]}} moves! You Win!</p>
+            <form action="/reset" method="post">
+                <button>Reset the Game.</button>
+            </form>
+        {% elif session["moves"] > 15 %}
+            <p>You did not reach 500 gold under 15 moves. You Lose!</p>
+            <form action="/reset" method="post">
+                <button>Reset the Game.</button>
+            </form>
+        {% else %}
+            <p>Reach 500 gold under 15 moves to win!</p>
+        {% endif %}
+        
+    </div>
+</body>
+</html>

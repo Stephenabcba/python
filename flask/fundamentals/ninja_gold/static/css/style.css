@@ -1,0 +1,76 @@
+/* CSS RESET */
+* {
+    padding: 0;
+    margin: 0;
+}
+
+#container {
+    width: 1200px;
+    margin: 0px 20px;
+}
+
+.black_border {
+    border: black 1px solid;
+}
+
+/* Gold display */
+#gold {
+    display: flex;
+    align-items: center;
+    margin: 25px 0px;
+}
+
+#gold > p {
+    margin-right: 20px;
+}
+
+#gold > div {
+    padding: 5px;
+    width: 100px;
+}
+
+/* Actions */
+#actions {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.action {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    flex: 1;
+}
+
+.action > h2, .action > p {
+    margin-bottom: 10px;
+}
+
+.action button {
+    background-color: white;
+    padding: 5px;
+    box-shadow: black 2px 2px;
+    margin: 10px;
+}
+
+/* Activities log */
+#activities > p {
+    margin-bottom: 10px;
+}
+#activities > div {
+    padding: 10px;
+    min-height: 50px;
+    max-height: 200px;
+    overflow: auto;
+}
+
+.profit {
+    color: green;
+}
+
+.loss {
+    color: red;
+}

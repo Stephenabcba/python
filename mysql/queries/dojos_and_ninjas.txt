@@ -1,0 +1,24 @@
+SELECT * FROM dojos;
+INSERT INTO dojos (name) VALUES ("coding");
+INSERT INTO dojos (name) VALUES ("programming");
+INSERT INTO dojos (name) VALUES ("learning");
+DELETE FROM dojos WHERE id <= 3;
+INSERT INTO dojos (name) VALUES ("coding");
+INSERT INTO dojos (name) VALUES ("programming");
+INSERT INTO dojos (name) VALUES ("learning");
+SELECT * FROM ninjas;
+INSERT INTO ninjas (first_name, last_name, age, dojo_id) VALUES ("Joe", "Smith", 29, 4);
+INSERT INTO ninjas (first_name, last_name, age, dojo_id) VALUES ("Jane", "Smith", 30, 4);
+INSERT INTO ninjas (first_name, last_name, age, dojo_id) VALUES ("John", "Smith", 27, 4);
+INSERT INTO ninjas (first_name, last_name, age, dojo_id) VALUES ("Joe", "Walker", 29, 5);
+INSERT INTO ninjas (first_name, last_name, age, dojo_id) VALUES ("Johny", "Walker", 25, 5);
+INSERT INTO ninjas (first_name, last_name, age, dojo_id) VALUES ("Joshua", "Walker", 19, 5);
+INSERT INTO ninjas (first_name, last_name, age, dojo_id) VALUES ("Joe", "Washington", 23, 6);
+INSERT INTO ninjas (first_name, last_name, age, dojo_id) VALUES ("Julia", "Washington", 18, 6);
+INSERT INTO ninjas (first_name, last_name, age, dojo_id) VALUES ("Jean", "Washington", 37, 6);
+SELECT * FROM ninjas WHERE dojo_id=4;
+SELECT * FROM ninjas WHERE dojo_id=6;
+SELECT ninjas.id, dojos.name 
+FROM dojos
+JOIN ninjas ON dojos.id = ninjas.dojo_id
+WHERE ninjas.id=9;

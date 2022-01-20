@@ -1,0 +1,4 @@
+INSERT INTO city (Name,CountryCode, District) VALUES ('San Jose','USA','Santa Clara');
+SELECT * FROM city WHERE District='Santa Clara';
+UPDATE city SET Population = 2345678 WHERE ID=4080;
+DELETE FROM city where ID=4080;

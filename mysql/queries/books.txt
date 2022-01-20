@@ -1,0 +1,48 @@
+SELECT * FROM authors;
+INSERT INTO authors(first_name, last_name) VALUES ("Jane", "Austen");
+INSERT INTO authors(first_name, last_name) VALUES ("Emily", "Dickinson");
+INSERT INTO authors(first_name, last_name) VALUES ("Fyodor", "Dostoevsky");
+INSERT INTO authors(first_name, last_name) VALUES ("William", "Shakespeare");
+INSERT INTO authors(first_name, last_name) VALUES ("Lau", "Tsu");
+SELECT * FROM books;
+INSERT INTO books(title,num_of_pages) VALUES("C Sharp", 235);
+INSERT INTO books(title,num_of_pages) VALUES("Java", 325);
+INSERT INTO books(title,num_of_pages) VALUES("Python", 129);
+INSERT INTO books(title,num_of_pages) VALUES("PHP", 264);
+INSERT INTO books(title,num_of_pages) VALUES("Ruby", 728);
+UPDATE books SET title="C#" WHERE id=1;
+UPDATE authors SET first_name="Bill" WHERE id=4;
+SELECT * FROM favorites;
+INSERT INTO favorites(book_id,author_id) VALUES (1,1);
+INSERT INTO favorites(book_id,author_id) VALUES (2,1);
+INSERT INTO favorites(book_id,author_id) VALUES (1,2);
+INSERT INTO favorites(book_id,author_id) VALUES (2,2);
+INSERT INTO favorites(book_id,author_id) VALUES (3,2);
+INSERT INTO favorites(book_id,author_id) VALUES (1,3);
+INSERT INTO favorites(book_id,author_id) VALUES (2,3);
+INSERT INTO favorites(book_id,author_id) VALUES (3,3);
+INSERT INTO favorites(book_id,author_id) VALUES (4,3);
+INSERT INTO favorites(book_id,author_id) VALUES (1,4);
+INSERT INTO favorites(book_id,author_id) VALUES (2,4);
+INSERT INTO favorites(book_id,author_id) VALUES (3,4);
+INSERT INTO favorites(book_id,author_id) VALUES (4,4);
+INSERT INTO favorites(book_id,author_id) VALUES (5,4);
+
+SELECT authors.id as author_id, authors.first_name, authors.last_name, books.id as book_id, books.title as book_title
+FROM authors
+JOIN favorites ON authors.id = favorites.author_id
+JOIN books on books.id = favorites.book_id
+WHERE books.id = 3;
+
+INSERT INTO favorites(book_id,author_id) VALUES (2,5);
+
+SELECT authors.id as author_id, books.id as book_id, books.title as book_title, books.num_of_pages
+FROM authors
+JOIN favorites ON authors.id = favorites.author_id
+JOIN books on books.id = favorites.book_id
+WHERE authors.id = 3;
+SELECT authors.id as author_id, authors.first_name, authors.last_name, books.id as book_id
+FROM authors
+JOIN favorites ON authors.id = favorites.author_id
+JOIN books on books.id = favorites.book_id
+WHERE books.id = 5;

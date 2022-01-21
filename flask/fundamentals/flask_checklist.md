@@ -51,6 +51,23 @@ pip install pipenv
             - img
             - css
             - js
+8. 1: File Structure with MySQL database connection
+    - Main_app
+        - server.py
+        - mysqlconnection.py
+        - models
+            - models_model_name.py
+        - pipfile
+        - pipfile.lock
+        - templates
+            - index.html
+        - static
+            - img
+            - css
+                - style.css
+            - js
+
+
 9. Test server inside pipenv shell
     ```
     python server.py
@@ -127,6 +144,54 @@ pip install pipenv
             for friend in results:
                 friends.append( cls(friend) )
             return friends
-                
+    ```
+12. In model python file (create, call the database, return)
+    - Create: create()
+    - Retrieve: get(), get_one()
+    - Update: update_one()
+    - Delete: delete_one()
+    ```py
+    from mysqlconnection import connectToMySQL
 
+    DATABASE = 'users_db'
+
+    class User:
+        def __init__( self , data):
+            self.id = data['id']
+            self.first_name = data['first_name']
+            self.last_name = data['last_name']
+            self.email = data['email']
+            self.created_at = data['created_at']
+            self.updated_at = data['updated_at']
+        
+        # C
+        @classmethod
+        def create(cls,data:dict) -> int:
+            query = "INSERT INTO users (first_name, last_name, email) VALUES (%(first_name)s, %(last_name)s, %(email)s);"
+            user_id = connectToMySQL(DATABASE).query_db(query,data)
+            return user_id
+
+        # R
+        @classmethod
+        def get_all(cls):
+            query = "SELECT * FROM users;"
+            results = connectToMySQL(DATABASE).query_db(query)
+            users = []
+            for user in results:
+                users.append(cls(results))
+            return users
+
+        @classmethod
+        def get_one(cls):
+            pass
+
+        # U
+        @classmethod
+        def update_one(cls):
+            pass
+
+        #D
+        @classmethod
+        def delete_one(cls):
+            pass
     ```

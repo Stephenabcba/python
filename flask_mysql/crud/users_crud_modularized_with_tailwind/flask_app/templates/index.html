@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Read (All)</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/output.css') }}">
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+</head>
+<body>
+    <!-- <div class="bg-gradient-to-br from-sky-300 to-fuchsia-600 min-h-screen"> -->
+    <div class="bg-background min-h-screen">
+        <div class="container mx-auto pt-5 text-foreground-text">
+            <h1 class="text-3xl text-center pb-3 font-mono">All Users</h1>
+            <div class="border-2 rounded-3xl mb-5 overflow-hidden">
+                <table class="table-auto divide-y divide-gray-500 min-w-full ">
+                    <thead class="hover:bg-foreground-highlight">
+                        <tr>
+                            <th class="pl-3 py-3">ID</th>
+                            <th class="py-3">Full Name</th>
+                            <th class="hidden sm:table-cell py-3">Email</th>
+                            <th class="hidden md:table-cell py-3">Created At</th>
+                            <th class="pr-3">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody >
+                        {% for user in users %}
+                        <tr class="text-center hover:bg-foreground-highlight">
+                            <td class="pl-3 py-5">{{ user["id"] }}</td>
+                            <td class="py-5">{{ user["full_name"] }}</td>
+                            <td class="hidden sm:table-cell py-5">{{ user["email"] }}</td>
+                            <td class="hidden md:table-cell py-5">{{ user["created_at"] }}</td>
+                            <td class="flex justify-around pr-3 py-5">
+                                <a href="/users/{{ user['id'] }}" class="px-3 py-2 rounded-xl grid-cols-1 bg-foreground-button text-foreground-button-text">Show</a>
+                                <a href="/users/{{ user['id'] }}/edit" class="px-3 py-2 rounded-xl grid-cols-1 bg-foreground-button text-foreground-button-text">Edit</a>
+                                <a href="/users/{{ user['id'] }}/destroy" class="px-3 py-2 rounded-xl grid-cols-1 bg-foreground-button text-foreground-button-text">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div >
+                <a href="/users/new" class="p-3 rounded-xl grid-cols-1 bg-foreground-button text-foreground-button-text">Add a New User</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -51,28 +51,36 @@ pip install pipenv
             - img
             - css
             - js
-8. 1: File Structure with MySQL database connection
+8. 1: File Structure with MySQL database connection, modularized
+    ```
     - Main_app
-        - server.py
-        - mysqlconnection.py
-        - models
-            - models_model_name.py
+        - flask_app
+            - config
+                - mysqlconnection.py
+            - controllers
+                - controller_table_name.py
+            - models
+                - models_model_name.py
+            - static
+                - img
+                - css
+                    - style.css
+                - js
+            - templates
+                - index.html
+            - __init__.py
         - pipfile
         - pipfile.lock
-        - templates
-            - index.html
-        - static
-            - img
-            - css
-                - style.css
-            - js
+        - server.py
+    ```
+    - server.py MUST IMPORT ALL CONTROLLERS FOR THEM TO WORK
 
 
 9. Test server inside pipenv shell
     ```
     python server.py
     ```
-10. mysqlconnection.py file
+10. mysqlconnection.py file (does not need editing)
     ```py
     # a cursor is the object we use to interact with the database
     import pymysql.cursors
@@ -119,7 +127,7 @@ pip install pipenv
     def connectToMySQL(db):
         return MySQLConnection(db)
     ```
-11. model_table_name.py file
+11. model_table_name.py file (will need to rename table name)
     ``` py
     # import the function that will return an instance of a connection
     from mysqlconnection import connectToMySQL
@@ -195,3 +203,53 @@ pip install pipenv
         def delete_one(cls):
             pass
     ```
+13. RESTful naming techniques for controller route names
+    ```
+    /table_name : display: all entries in table
+    /table_name/new : display: form to create a new entry into table
+    /table_name/create : action: take the form from '/new' to create the entry
+    /table_name/<id> : display: entry with id of id
+    /table_name/<id>/edit: display: form to edit entry with id
+    /table_name/<id>/update: action: take the form from '/edit' and update the entry
+    /table_name/<id>/delete: delete the specific entry
+    ```
+
+- Useful stuff
+    - convert the form from POST into a dictionary, with an extra key-value pair of id
+    ```py
+    data = {
+        **request.form,
+        "id": id
+    }
+    ```
+    - passing just id as data dictionary (anonymous dictionary)
+    ```py
+    get_one({"id",id})
+    ```
+    - get the entry B related to foreign key of entry A (done in model_A.py)
+      - method one: 
+          - JOIN A to B using A.foreign_key = B.key
+          - create object A using results from query
+          - create data dict using results (we have to rename B.id to id, etc)
+            - create object B using data dict
+          - add B as an attribute to A (A.b_name = instance_B)
+          - return A
+      - method two:
+          - utilize get_one method of B
+          - A get_one() using given id
+            - B get_one(), using A.foreign_key_to_B
+            - in A:
+            ```py
+                @property
+                def B_name(self):
+                    return B.get_one(A.foreign_key_to_B)
+            ```
+            - to use it: (property decorator eliminates the parenthesis)
+            ```py
+            instance_A.B_name # returns an instance of B, do object instance attribute calls as needed for B
+            ```
+
+- Info:
+    - if importing a model from another model, import the whole model.py file
+        - prevents circular importing
+        - in controller files, it's ok to import only the class from the model file

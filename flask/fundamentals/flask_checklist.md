@@ -192,7 +192,7 @@ pip install pipenv
             results = connectToMySQL(DATABASE).query_db(query)
             users = []
             for user in results:
-                users.append(cls(results))
+                users.append(cls(user))
             return users
 
         @classmethod
@@ -207,14 +207,12 @@ pip install pipenv
         @classmethod
         def update_one(cls, data):
             query = "UPDATE users SET first_name=%(fname)s , last_name=%(lname)s , email=%(email)s WHERE id = %(id)s;"
-            # data is a dictionary that will be passed into the save method from server.py
             return connectToMySQL(DATABASE).query_db( query, data )
 
         #D
         @classmethod
         def delete_one(cls, data):
             query = "DELETE FROM users WHERE id = %(id)s;"
-            # data is a dictionary that will be passed into the save method from server.py
             return connectToMySQL(DATABASE).query_db( query, data )
 
     ```
@@ -238,6 +236,7 @@ pip install pipenv
     ```
 
 16. Rendering Flashed messages in html
+    - https://flask.palletsprojects.com/en/1.0.x/patterns/flashing/
     ```html
     {% with messages = get_flashed_messages() %}   <!-- declare a variable called messages -->
         {% if messages %}              <!-- check if there are any messages -->
@@ -260,7 +259,14 @@ pip install pipenv
     bcrypt.check_password_hash(hashed_password, password_string)
     ```
 
-
+18. Updated server.py
+19. __init__.py
+    ```py
+    from flask import Flask
+    app = Flask(__name__)
+    app.secret_key = "keep it secret keep it safe"
+    DATABASE = "database_name"
+    ```
 - Useful stuff
     - convert the form from POST into a dictionary, with an extra key-value pair of id
     ```py

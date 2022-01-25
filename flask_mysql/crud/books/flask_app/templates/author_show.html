@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Author Show</title>
+</head>
+<body>
+    <div class="container">
+        <div>
+            <h1>{{author.name}}'s favorites</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th># of pages</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for book in author.favorite_books%}
+                    <tr>
+                            <td>{{ book.title }}</td>
+                            <td>{{ book.num_of_pages }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a href="/authors">Home</a>
+        </div>
+        <div>
+            <h1>Add Author's Favorite</h1>
+            <form action="/authors/{{ author.id }}/add_favorite" method="post">
+                <label for="book">Book:</label>
+                <select name="book_id" id="book">
+                    {% for book in books %}
+                        {% if not author.favorite_ids or book.id not in author.favorite_ids%}
+                        <option value="{{ book.id }}">{{ book.title }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                <button>Add</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

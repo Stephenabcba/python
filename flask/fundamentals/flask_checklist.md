@@ -11,6 +11,12 @@ pip install pipenv
     ```
     pipenv install flask
     ```
+    ```
+    pipenv install flask pyMySQL
+    ```
+    ```
+    pipenv install flask pyMySQL flask-bcrypt
+    ```
     - more dependencies if needed
     - if it doesn't work:
     ```
@@ -51,7 +57,7 @@ pip install pipenv
             - img
             - css
             - js
-8. 1: File Structure with MySQL database connection, modularized
+9. 1: File Structure with MySQL database connection, modularized
     ```
     - Main_app
         - flask_app
@@ -76,11 +82,11 @@ pip install pipenv
     - server.py MUST IMPORT ALL CONTROLLERS FOR THEM TO WORK
 
 
-9. Test server inside pipenv shell
+10. Test server inside pipenv shell
     ```
     python server.py
     ```
-10. mysqlconnection.py file (does not need editing)
+11. mysqlconnection.py file (does not need editing)
     ```py
     # a cursor is the object we use to interact with the database
     import pymysql.cursors
@@ -127,7 +133,7 @@ pip install pipenv
     def connectToMySQL(db):
         return MySQLConnection(db)
     ```
-11. model_table_name.py file (will need to rename table name)
+12. model_table_name.py file (will need to rename table name)
     ``` py
     # import the function that will return an instance of a connection
     from mysqlconnection import connectToMySQL
@@ -153,7 +159,7 @@ pip install pipenv
                 friends.append( cls(friend) )
             return friends
     ```
-12. In model python file (create, call the database, return)
+13. In model python file (create, call the database, return)
     - Create: create()
     - Retrieve: get(), get_one()
     - Update: update_one()
@@ -190,20 +196,29 @@ pip install pipenv
             return users
 
         @classmethod
-        def get_one(cls):
-            pass
+        def get_one(cls, data):
+            query = "SELECT * FROM users WHERE id=%(id)s;"
+            results = connectToMySQL(DATABASE).query_db(query, data)
+            if results:
+                return cls(results[0])
+            return False
 
         # U
         @classmethod
-        def update_one(cls):
-            pass
+        def update_one(cls, data):
+            query = "UPDATE users SET first_name=%(fname)s , last_name=%(lname)s , email=%(email)s WHERE id = %(id)s;"
+            # data is a dictionary that will be passed into the save method from server.py
+            return connectToMySQL(DATABASE).query_db( query, data )
 
         #D
         @classmethod
-        def delete_one(cls):
-            pass
+        def delete_one(cls, data):
+            query = "DELETE FROM users WHERE id = %(id)s;"
+            # data is a dictionary that will be passed into the save method from server.py
+            return connectToMySQL(DATABASE).query_db( query, data )
+
     ```
-13. RESTful naming techniques for controller route names
+14. RESTful naming techniques for controller route names
     ```
     /table_name : display: all entries in table
     /table_name/new : display: form to create a new entry into table
@@ -213,6 +228,38 @@ pip install pipenv
     /table_name/<id>/update: action: take the form from '/edit' and update the entry
     /table_name/<id>/delete: delete the specific entry
     ```
+
+15. Regular Expression email validation
+    ```py
+    import re
+    EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$') 
+
+    EMAIL_REGEX.match(data['email'])
+    ```
+
+16. Rendering Flashed messages in html
+    ```html
+    {% with messages = get_flashed_messages() %}   <!-- declare a variable called messages -->
+        {% if messages %}              <!-- check if there are any messages -->
+            {% for message in messages %}      <!-- loop through the messages -->
+                <p>{{message}}</p>          <!-- display each message in a paragraph tag -->
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    ```
+
+17. Bcrypt (done in controller file)
+    ```py
+    from flask_bcrypt import Bcrypt
+    bcrypt = Bcrypt(app)
+
+    # in creating / updating the password
+    bcrypt.generate_password_hash(password_string) 
+
+    # in login verification
+    bcrypt.check_password_hash(hashed_password, password_string)
+    ```
+
 
 - Useful stuff
     - convert the form from POST into a dictionary, with an extra key-value pair of id
